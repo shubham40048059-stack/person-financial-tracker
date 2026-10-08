@@ -1,9 +1,10 @@
 """
-Personal Financial Tracker
+Personal Financial Tracker — FinTrack
 A modern, portfolio-quality personal financial dashboard built with Streamlit, Pandas, and Plotly.
 """
 from __future__ import annotations
 
+import base64
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -33,12 +34,15 @@ from utils.analyzer import (
 from utils.data_loader import DEFAULT_DEMO_PATH, load_demo_data, load_uploaded_data
 from utils.helpers import format_inr
 
+# -----------------------------------------------------------------------------
+# Asset Paths
+# -----------------------------------------------------------------------------
 APP_DIR = Path(__file__).resolve().parent
 LOGO_PATH = APP_DIR / "assets" / "fintrack-logo.png"
 ICON_PATH = APP_DIR / "assets" / "fintrack-icon.png"
 
 # -----------------------------------------------------------------------------
-# App Configuration & Page Setup
+# Page Configuration
 # -----------------------------------------------------------------------------
 st.set_page_config(
     page_title="FinTrack | Personal Financial Tracker",
@@ -48,7 +52,7 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# Color Palette & Chart Theming
+# Visual Design System & Color Palette
 # -----------------------------------------------------------------------------
 COLOR_PALETTE = {
     "income": "#10B981",       # Emerald Green
@@ -68,19 +72,19 @@ COLOR_PALETTE = {
 
 
 def apply_chart_style(fig: go.Figure, title: str = "", height: int = 400) -> go.Figure:
-    """Apply consistent, professional styling to Plotly charts."""
+    """Apply SaaS-grade, clean, high-contrast styling to Plotly charts."""
     fig.update_layout(
         title=dict(
             text=f"<b>{title}</b>" if title else "",
-            font=dict(size=16, color="#F1F5F9", family="sans-serif"),
+            font=dict(size=15, color="#F8FAFC", family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"),
             x=0.01,
             y=0.96,
         ),
         paper_bgcolor="rgba(0, 0, 0, 0)",
         plot_bgcolor="rgba(0, 0, 0, 0)",
-        font=dict(color="#CBD5E1", size=12, family="sans-serif"),
+        font=dict(color="#94A3B8", size=12, family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"),
         height=height,
-        margin=dict(l=20, r=20, t=50 if title else 20, b=20),
+        margin=dict(l=15, r=15, t=55 if title else 25, b=25),
         legend=dict(
             orientation="h",
             yanchor="bottom",
@@ -94,22 +98,22 @@ def apply_chart_style(fig: go.Figure, title: str = "", height: int = 400) -> go.
             bgcolor="#1E293B",
             font_size=12,
             font_color="#F8FAFC",
-            bordercolor="#475569"
+            bordercolor="rgba(255, 255, 255, 0.15)",
         ),
     )
     fig.update_xaxes(
-        gridcolor="rgba(255, 255, 255, 0.07)",
-        zerolinecolor="rgba(255, 255, 255, 0.12)",
+        gridcolor="rgba(255, 255, 255, 0.05)",
+        zerolinecolor="rgba(255, 255, 255, 0.1)",
         showline=True,
-        linecolor="rgba(255, 255, 255, 0.15)",
-        tickfont=dict(color="#94A3B8"),
+        linecolor="rgba(255, 255, 255, 0.12)",
+        tickfont=dict(color="#94A3B8", size=11),
     )
     fig.update_yaxes(
-        gridcolor="rgba(255, 255, 255, 0.07)",
-        zerolinecolor="rgba(255, 255, 255, 0.12)",
+        gridcolor="rgba(255, 255, 255, 0.05)",
+        zerolinecolor="rgba(255, 255, 255, 0.1)",
         showline=True,
-        linecolor="rgba(255, 255, 255, 0.15)",
-        tickfont=dict(color="#94A3B8"),
+        linecolor="rgba(255, 255, 255, 0.12)",
+        tickfont=dict(color="#94A3B8", size=11),
     )
     return fig
 
@@ -121,6 +125,17 @@ def apply_chart_style(fig: go.Figure, title: str = "", height: int = 400) -> go.
 def get_cached_demo_data() -> pd.DataFrame:
     """Load and cache the synthetic demo transactions dataset."""
     return load_demo_data(DEFAULT_DEMO_PATH)
+
+
+@st.cache_data(show_spinner=False)
+def get_logo_base64() -> str:
+    """Read and cache base64 representation of the brand logo."""
+    if LOGO_PATH.exists():
+        try:
+            return base64.b64encode(LOGO_PATH.read_bytes()).decode("ascii")
+        except Exception:
+            return ""
+    return ""
 
 
 def init_session_state() -> None:
@@ -143,164 +158,368 @@ def get_active_dataframe() -> pd.DataFrame:
 
 
 # -----------------------------------------------------------------------------
-# Custom Styling (CSS)
+# High-End SaaS Custom Styling (CSS)
 # -----------------------------------------------------------------------------
 def inject_custom_css() -> None:
     st.markdown(
         """
         <style>
-        /* Modern fintech layout and background styling */
+        /* Base page layout & typography */
+        html, body, [data-testid="stApp"], [data-testid="stAppViewContainer"] {
+            background-color: #0B0F17 !important;
+            color: #F8FAFC;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+        }
+
         .block-container {
-            padding-top: 1.8rem;
-            padding-bottom: 3.5rem;
+            padding-top: 1.5rem !important;
+            padding-bottom: 3.5rem !important;
             max-width: 95rem;
         }
 
-        /* Metric cards styling */
-        .metric-card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
+        /* Top header bar */
+        .saas-page-header {
             margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         }
-        .metric-card {
-            background: linear-gradient(135deg, rgba(30, 41, 59, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
+        .saas-page-title {
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: #F8FAFC;
+            letter-spacing: -0.025em;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .saas-page-desc {
+            font-size: 0.92rem;
+            color: #94A3B8;
+            margin: 0.35rem 0 0 0;
+        }
+
+        /* SIDEBAR STYLING */
+        [data-testid="stSidebar"] {
+            background-color: #101726 !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+        [data-testid="stSidebar"] > div:first-child {
+            padding-top: 1rem;
+            padding-left: 1.1rem;
+            padding-right: 1.1rem;
+        }
+
+        /* 1. SEPARATE BRAND LOGO CONTAINER */
+        .fintrack-brand-container {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .fintrack-brand-card {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 12px 14px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .fintrack-brand-logo-img {
+            width: 100%;
+            max-width: 220px;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        /* Sidebar Section Headers */
+        .sidebar-section-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #64748B;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .sidebar-section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        /* 2. SIDEBAR NAVIGATION MENU */
+        [data-testid="stSidebar"] [data-testid="stRadioGroup"] {
+            gap: 0.35rem !important;
+        }
+        [data-testid="stSidebar"] [data-testid="stRadioOption"] {
+            position: relative;
+            min-height: 2.6rem;
+            padding: 0.65rem 0.85rem !important;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            background: transparent;
+            color: #CBD5E1 !important;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        /* Hide default round radio dots */
+        [data-testid="stSidebar"] [data-testid="stRadioOption"] > div > div:first-child {
+            display: none !important;
+        }
+        [data-testid="stSidebar"] [data-testid="stRadioOption"] p {
+            margin: 0;
+            font-size: 0.92rem;
+            font-weight: 500;
+            line-height: 1.35;
+        }
+        [data-testid="stSidebar"] [data-testid="stRadioOption"]:hover {
+            background: #172234 !important;
+            color: #F8FAFC !important;
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+        [data-testid="stSidebar"] [data-testid="stRadioOption"][data-selected="true"] {
+            background: rgba(16, 185, 129, 0.14) !important;
+            border-color: rgba(16, 185, 129, 0.35) !important;
+            color: #34D399 !important;
+            font-weight: 600;
+        }
+        [data-testid="stSidebar"] [data-testid="stRadioOption"][data-selected="true"] p {
+            color: #34D399 !important;
+            font-weight: 600;
+        }
+        [data-testid="stSidebar"] [data-testid="stRadioOption"][data-selected="true"]::before {
+            position: absolute;
+            top: 0.5rem;
+            bottom: 0.5rem;
+            left: 0;
+            width: 3px;
+            border-radius: 0 3px 3px 0;
+            background: #10B981;
+            content: "";
+        }
+
+        /* Sidebar Dataset Status Card */
+        .dataset-status-card {
+            background: #141E30;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 0.75rem 0.85rem;
+            margin-bottom: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .status-dot.demo {
+            background: #38BDF8;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+        }
+        .status-dot.user {
+            background: #10B981;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+        }
+        .dataset-title {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #F1F5F9;
+            line-height: 1.2;
+            word-break: break-all;
+        }
+        .dataset-sub {
+            font-size: 0.72rem;
+            color: #94A3B8;
+            margin-top: 0.15rem;
+        }
+
+        /* Sidebar Footer */
+        .sidebar-footer-card {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: #64748B;
+            font-size: 0.78rem;
+            line-height: 1.45;
+        }
+        .footer-brand {
+            font-weight: 600;
+            color: #94A3B8;
+        }
+
+        /* METRIC CARDS (Clean SaaS KPI Cards) */
+        .kpi-card {
+            background: #131B2A;
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             padding: 1.1rem 1.2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.15s ease, border-color 0.15s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 108px;
         }
-        .metric-card:hover {
+        .kpi-card:hover {
             transform: translateY(-2px);
-            border-color: rgba(16, 185, 129, 0.35);
+            border-color: rgba(255, 255, 255, 0.16);
         }
-        .metric-label {
-            font-size: 0.82rem;
-            color: #94A3B8;
-            font-weight: 500;
+        .kpi-header {
             display: flex;
             align-items: center;
             gap: 0.45rem;
-            margin-bottom: 0.4rem;
+            color: #94A3B8;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
-        .metric-value {
+        .kpi-value {
             font-size: 1.45rem;
             font-weight: 700;
             color: #F8FAFC;
             letter-spacing: -0.02em;
+            margin: 0.35rem 0 0.15rem 0;
+            line-height: 1.2;
         }
-        .metric-value.income {
-            color: #10B981;
-        }
-        .metric-value.expense {
-            color: #F43F5E;
-        }
-        .metric-value.balance {
+        .kpi-value.balance {
             color: #38BDF8;
         }
-        .metric-value.positive {
+        .kpi-value.income {
             color: #10B981;
         }
-        .metric-value.negative {
+        .kpi-value.expense {
             color: #F43F5E;
         }
-
-        /* Insights Card */
-        .insight-box {
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid rgba(148, 163, 184, 0.15);
-            border-left: 4px solid #10B981;
-            border-radius: 8px;
-            padding: 1rem 1.25rem;
-            margin-bottom: 1.5rem;
+        .kpi-value.positive {
+            color: #10B981;
         }
-        .insight-item {
-            color: #E2E8F0;
-            font-size: 0.95rem;
-            margin: 0.4rem 0;
+        .kpi-value.negative {
+            color: #F43F5E;
+        }
+        .kpi-sub {
+            font-size: 0.72rem;
+            color: #64748B;
+        }
+
+        /* SUMMARY CALLOUT BOX */
+        .summary-card {
+            background: #131B2A;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-left: 4px solid #10B981;
+            border-radius: 10px;
+            padding: 1.2rem 1.4rem;
+            margin: 1.25rem 0 1.75rem 0;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+        }
+        .summary-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #F8FAFC;
+            margin-bottom: 0.75rem;
+        }
+        .summary-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 0.55rem 1.5rem;
+        }
+        .summary-item {
+            color: #CBD5E1;
+            font-size: 0.92rem;
             display: flex;
             align-items: baseline;
             gap: 0.5rem;
+            line-height: 1.45;
         }
-        .insight-bullet {
+        .summary-bullet {
             color: #10B981;
             font-weight: bold;
+            font-size: 1rem;
         }
 
-        /* Standout comparison cards */
-        .highlight-card {
-            background: rgba(30, 41, 59, 0.7);
+        /* SAAS DEMO BANNER */
+        .saas-banner {
+            background: rgba(56, 189, 248, 0.06);
+            border: 1px solid rgba(56, 189, 248, 0.22);
             border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 1rem 1.2rem;
-            text-align: center;
-        }
-        .highlight-card.best {
-            border-top: 3px solid #10B981;
-        }
-        .highlight-card.spending {
-            border-top: 3px solid #F43F5E;
-        }
-        .highlight-card.income {
-            border-top: 3px solid #38BDF8;
-        }
-        .highlight-title {
-            font-size: 0.8rem;
-            color: #94A3B8;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.3rem;
-        }
-        .highlight-month {
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #F8FAFC;
-        }
-        .highlight-amount {
-            font-size: 0.92rem;
-            font-weight: 600;
-            margin-top: 0.2rem;
-        }
-
-        /* Banner styling */
-        .demo-badge-bar {
-            background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            margin-bottom: 1.25rem;
+            padding: 0.85rem 1.15rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 0.75rem;
+            gap: 0.85rem;
         }
-        .demo-badge-text {
-            color: #BAE6FD;
-            font-size: 0.9rem;
+        .saas-banner-left {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.65rem;
+            flex-wrap: wrap;
+        }
+        .saas-banner-pill {
+            background: rgba(56, 189, 248, 0.18);
+            color: #38BDF8;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        .saas-banner-text {
+            color: #E2E8F0;
+            font-size: 0.9rem;
         }
 
-        /* Chart container */
-        .chart-box {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+        /* CHART CONTAINER CARD */
+        .chart-card {
+            background: #131B2A;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 12px;
             padding: 1rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
         }
 
-        /* Sidebar footer styling */
-        .sidebar-footer {
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #64748B;
-            font-size: 0.78rem;
-            line-height: 1.4;
+        /* STANDOUT MONTHLY CARDS */
+        .standout-card {
+            background: #131B2A;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.1rem 1.25rem;
+            text-align: center;
+        }
+        .standout-card.best {
+            border-top: 3px solid #10B981;
+        }
+        .standout-card.spending {
+            border-top: 3px solid #F43F5E;
+        }
+        .standout-card.income {
+            border-top: 3px solid #38BDF8;
+        }
+        .standout-label {
+            font-size: 0.75rem;
+            color: #94A3B8;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+        .standout-month {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+        .standout-val {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
         }
         </style>
         """,
@@ -318,9 +537,10 @@ def render_metric_cards(metrics: Dict[str, Any]) -> None:
     with col1:
         st.markdown(
             f"""
-            <div class="metric-card">
-                <div class="metric-label">🏦 Current Balance</div>
-                <div class="metric-value balance">{format_inr(metrics["current_balance"])}</div>
+            <div class="kpi-card">
+                <div class="kpi-header">🏦 Current Balance</div>
+                <div class="kpi-value balance">{format_inr(metrics["current_balance"])}</div>
+                <div class="kpi-sub">Closing position</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -329,9 +549,10 @@ def render_metric_cards(metrics: Dict[str, Any]) -> None:
     with col2:
         st.markdown(
             f"""
-            <div class="metric-card">
-                <div class="metric-label">💰 Total Income</div>
-                <div class="metric-value income">{format_inr(metrics["total_income"])}</div>
+            <div class="kpi-card">
+                <div class="kpi-header">💰 Total Income</div>
+                <div class="kpi-value income">{format_inr(metrics["total_income"])}</div>
+                <div class="kpi-sub">Cumulative credits</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -340,9 +561,10 @@ def render_metric_cards(metrics: Dict[str, Any]) -> None:
     with col3:
         st.markdown(
             f"""
-            <div class="metric-card">
-                <div class="metric-label">💸 Total Expenses</div>
-                <div class="metric-value expense">{format_inr(metrics["total_expenses"])}</div>
+            <div class="kpi-card">
+                <div class="kpi-header">💸 Total Expenses</div>
+                <div class="kpi-value expense">{format_inr(metrics["total_expenses"])}</div>
+                <div class="kpi-sub">Cumulative debits</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -351,11 +573,13 @@ def render_metric_cards(metrics: Dict[str, Any]) -> None:
     with col4:
         net_cf = metrics["net_cash_flow"]
         cf_class = "positive" if net_cf >= 0 else "negative"
+        sub_text = "Net surplus" if net_cf >= 0 else "Net deficit"
         st.markdown(
             f"""
-            <div class="metric-card">
-                <div class="metric-label">📈 Net Cash Flow</div>
-                <div class="metric-value {cf_class}">{format_inr(net_cf)}</div>
+            <div class="kpi-card">
+                <div class="kpi-header">📈 Net Cash Flow</div>
+                <div class="kpi-value {cf_class}">{format_inr(net_cf)}</div>
+                <div class="kpi-sub">{sub_text}</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -364,9 +588,10 @@ def render_metric_cards(metrics: Dict[str, Any]) -> None:
     with col5:
         st.markdown(
             f"""
-            <div class="metric-card">
-                <div class="metric-label">🧾 Transactions</div>
-                <div class="metric-value">{metrics["transaction_count"]}</div>
+            <div class="kpi-card">
+                <div class="kpi-header">🧾 Transactions</div>
+                <div class="kpi-value">{metrics["transaction_count"]}</div>
+                <div class="kpi-sub">Total records</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -375,9 +600,10 @@ def render_metric_cards(metrics: Dict[str, Any]) -> None:
     with col6:
         st.markdown(
             f"""
-            <div class="metric-card">
-                <div class="metric-label">📉 Average Expense</div>
-                <div class="metric-value">{format_inr(metrics["average_expense"])}</div>
+            <div class="kpi-card">
+                <div class="kpi-header">📉 Average Expense</div>
+                <div class="kpi-value">{format_inr(metrics["average_expense"])}</div>
+                <div class="kpi-sub">Per transaction</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -388,23 +614,33 @@ def render_metric_cards(metrics: Dict[str, Any]) -> None:
 # Sidebar Navigation and Filters
 # -----------------------------------------------------------------------------
 def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
-    """Render sidebar navigation, filter controls, data status, and footer."""
-    if hasattr(st, "logo") and LOGO_PATH.exists():
-        try:
-            st.logo(
-                image=str(LOGO_PATH),
-                icon_image=str(ICON_PATH) if ICON_PATH.exists() else None,
-            )
-        except Exception:
-            pass
-
-    if LOGO_PATH.exists():
-        st.sidebar.image(str(LOGO_PATH), use_container_width=True)
+    """Render sidebar with completely separate brand card, navigation menu, and filters."""
+    # 1. SEPARATE BRAND LOGO SECTION (Distinct container with breathing room)
+    logo_b64 = get_logo_base64()
+    if logo_b64:
+        st.sidebar.markdown(
+            f"""
+            <div class="fintrack-brand-container">
+                <div class="fintrack-brand-card">
+                    <img src="data:image/png;base64,{logo_b64}" alt="FinTrack - Personal Finance, Simplified" class="fintrack-brand-logo-img" />
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
     else:
-        st.sidebar.markdown("## 💰 FinTrack")
-        st.sidebar.caption("Personal Financial Tracker")
+        st.sidebar.markdown(
+            """
+            <div class="fintrack-brand-container">
+                <h2 style="margin: 0; color: #10B981; font-weight: 800; letter-spacing: -0.03em;">FinTrack</h2>
+                <div style="font-size: 0.8rem; color: #94A3B8; margin-top: 0.2rem;">Personal Finance, Simplified</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
-    # Navigation Menu
+    # 2. SEPARATE NAVIGATION SECTION
+    st.sidebar.markdown('<div class="sidebar-section-title">NAVIGATION</div>', unsafe_allow_html=True)
     pages = ["🏠 Dashboard", "💳 Transactions", "📊 Analytics", "📁 Upload Data", "ℹ️ About"]
     selected_page = st.sidebar.radio(
         "Navigation",
@@ -414,29 +650,50 @@ def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
     )
     st.session_state.current_page = selected_page
 
-    st.sidebar.markdown("---")
-
-    # Data Source Indicator
+    # 3. DATASET STATUS CARD
+    st.sidebar.markdown('<div class="sidebar-section-title">DATA SOURCE</div>', unsafe_allow_html=True)
     if st.session_state.data_source == "demo":
-        st.sidebar.success("📊 Dataset: Synthetic Demo Data")
+        st.sidebar.markdown(
+            f"""
+            <div class="dataset-status-card">
+                <span class="status-dot demo"></span>
+                <div>
+                    <div class="dataset-title">Synthetic Demo Database</div>
+                    <div class="dataset-sub">{len(df)} verified transactions</div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
     else:
-        st.sidebar.info(f"📁 Dataset: {st.session_state.data_source_name}")
+        st.sidebar.markdown(
+            f"""
+            <div class="dataset-status-card">
+                <span class="status-dot user"></span>
+                <div>
+                    <div class="dataset-title">{st.session_state.data_source_name}</div>
+                    <div class="dataset-sub">Active session dataset ({len(df)} records)</div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
         if st.sidebar.button("🔄 Reset to Demo Data", use_container_width=True):
             st.session_state.data_source = "demo"
             st.session_state.data_source_name = "demo_transactions.csv"
             st.session_state.uploaded_df = None
             st.rerun()
 
-    # Filters Section (applicable on Dashboard, Transactions, Analytics)
+    # 4. FILTERS SECTION (Dashboard, Transactions, Analytics)
     filter_values = {}
     if selected_page in ["🏠 Dashboard", "💳 Transactions", "📊 Analytics"]:
-        st.sidebar.markdown("### 🔍 Filters")
+        st.sidebar.markdown('<div class="sidebar-section-title">FILTERS</div>', unsafe_allow_html=True)
 
         if df.empty:
-            st.sidebar.info("No data available to filter.")
+            st.sidebar.info("No records available to filter.")
             filtered_df = df
         else:
-            # 1. Date Range Filter
+            # Date Range Filter
             dates = pd.to_datetime(df["Date"]).dropna()
             min_date = dates.min().date() if not dates.empty else datetime.today().date()
             max_date = dates.max().date() if not dates.empty else datetime.today().date()
@@ -456,18 +713,18 @@ def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
                 start_date = date_range[0]
                 end_date = max_date
 
-            # 2. Transaction Type Filter
+            # Transaction Type Filter
             type_options = ["All", "Income", "Expense"]
             type_filter = st.sidebar.selectbox("Transaction Type", type_options, index=0)
 
-            # 3. Category Filter
+            # Category Filter
             available_categories = ["All"] + sorted(df["Category"].dropna().unique().tolist())
             category_filter = st.sidebar.selectbox("Category", available_categories, index=0)
 
-            # 4. Search Filter
+            # Search Description Filter
             search_query = st.sidebar.text_input("Search Description", placeholder="e.g. Zomato, Salary...")
 
-            # 5. Amount Range Filter
+            # Amount Range Slider
             max_row_amt = float(np.maximum(df["Income"], df["Expense"]).max()) if not df.empty else 100000.0
             amount_range = st.sidebar.slider(
                 "Amount Range (₹)",
@@ -502,13 +759,13 @@ def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
     else:
         filtered_df = df
 
-    # Sidebar Footer
+    # 5. SIDEBAR FOOTER
     st.sidebar.markdown(
         """
-        <div class="sidebar-footer">
-            <b>Personal Financial Tracker</b><br>
-            Portfolio-Ready Project<br><br>
-            <i>Demo data is synthetic and contains no real banking information.</i>
+        <div class="sidebar-footer-card">
+            <div class="footer-brand">FinTrack Personal Finance</div>
+            <div>Portfolio-Ready SaaS Dashboard</div>
+            <div style="margin-top: 0.35rem; color: #475569;">Synthetic demo data • Zero tracking</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -521,54 +778,71 @@ def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
 # PAGE 1: Dashboard
 # -----------------------------------------------------------------------------
 def render_dashboard(df: pd.DataFrame) -> None:
-    """Render the primary dashboard page."""
-    # Demo notice banner with Upload shortcut button
+    """Render the clean SaaS financial dashboard."""
+    # Page Header
+    st.markdown(
+        """
+        <div class="saas-page-header">
+            <h1 class="saas-page-title">Financial Overview</h1>
+            <p class="saas-page-desc">A consolidated snapshot of your balance trends, cash flows, and category spending.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # Demo Banner with Action Button
     if st.session_state.data_source == "demo":
-        st.markdown(
-            """
-            <div class="demo-badge-bar">
-                <div class="demo-badge-text">
-                    <span>💡</span>
-                    <span><b>Demo Mode:</b> You're viewing synthetic financial transactions for demonstration purposes.</span>
+        banner_col_l, banner_col_r = st.columns([4, 1.2])
+        with banner_col_l:
+            st.markdown(
+                """
+                <div class="saas-banner">
+                    <div class="saas-banner-left">
+                        <span class="saas-banner-pill">DEMO DATA</span>
+                        <span class="saas-banner-text">Viewing 3-month synthetic transactions for demonstration.</span>
+                    </div>
                 </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-        col_banner_l, col_banner_r = st.columns([4, 1])
-        with col_banner_r:
+                """,
+                unsafe_allow_html=True,
+            )
+        with banner_col_r:
             if st.button("📁 Upload Your Own Data", use_container_width=True):
                 st.session_state.current_page = "📁 Upload Data"
                 st.rerun()
-
-    st.markdown("## Financial Overview")
-    st.caption("A consolidated snapshot of your balances, cash flows, and expense distributions.")
 
     if df.empty:
         st.warning("⚠️ No transactions match your current filters. Adjust your sidebar filters to see data.")
         return
 
-    # 1. Metric Cards
+    # 1. 6 KPI Metric Cards
     metrics = financial_overview(df)
     render_metric_cards(metrics)
 
-    # 2. Your Financial Summary (Smart English Insights)
-    st.markdown("### Your Financial Summary")
+    # 2. "Your Financial Summary" Card
     insights = generate_insights(df)
-    with st.container():
-        insight_html = '<div class="insight-box">'
-        for insight in insights:
-            insight_html += f'<div class="insight-item"><span class="insight-bullet">•</span> {insight}</div>'
-        insight_html += "</div>"
-        st.markdown(insight_html, unsafe_allow_html=True)
+    summary_html = """
+    <div class="summary-card">
+        <div class="summary-header">
+            <span>💡</span>
+            <span>Your Financial Summary</span>
+        </div>
+        <div class="summary-list">
+    """
+    for ins in insights:
+        summary_html += f'<div class="summary-item"><span class="summary-bullet">•</span><span>{ins}</span></div>'
+    summary_html += """
+        </div>
+    </div>
+    """
+    st.markdown(summary_html, unsafe_allow_html=True)
 
     # 3. Interactive Charts
-    st.markdown("### Financial Trends & Visualizations")
+    st.markdown("<h3 style='color: #F8FAFC; margin: 1.5rem 0 1rem 0;'>Financial Trends & Breakdowns</h3>", unsafe_allow_html=True)
 
     # Row 1: Balance Trend & Monthly Income vs Expenses
-    row1_col1, row1_col2 = st.columns(2)
+    r1_col1, r1_col2 = st.columns(2)
 
-    with row1_col1:
+    with r1_col1:
         # Chart 1: Balance Trend
         b_df = balance_trend(df)
         if not b_df.empty:
@@ -592,7 +866,7 @@ def render_dashboard(df: pd.DataFrame) -> None:
         else:
             st.info("No balance history available for this selection.")
 
-    with row1_col2:
+    with r1_col2:
         # Chart 2: Monthly Income vs Expenses
         m_df = monthly_summary(df)
         if not m_df.empty:
@@ -618,10 +892,10 @@ def render_dashboard(df: pd.DataFrame) -> None:
             st.info("No monthly data available for the selected range.")
 
     # Row 2: Expense by Category (Donut) & Monthly Expenses
-    row2_col1, row2_col2 = st.columns(2)
+    r2_col1, r2_col2 = st.columns(2)
 
-    with row2_col1:
-        # Chart 3: Expense by Category (Donut Chart)
+    with r2_col1:
+        # Chart 3: Expense by Category
         cat_df = expense_by_category(df)
         if not cat_df.empty:
             fig_cat = px.pie(
@@ -642,7 +916,7 @@ def render_dashboard(df: pd.DataFrame) -> None:
         else:
             st.info("No expense transactions recorded in this selection.")
 
-    with row2_col2:
+    with r2_col2:
         # Chart 4: Monthly Expenses
         m_exp = monthly_expenses(df)
         if not m_exp.empty:
@@ -664,9 +938,9 @@ def render_dashboard(df: pd.DataFrame) -> None:
             st.info("No expense data available.")
 
     # Row 3: Spending Trend & Top Expenses
-    row3_col1, row3_col2 = st.columns(2)
+    r3_col1, r3_col2 = st.columns(2)
 
-    with row3_col1:
+    with r3_col1:
         # Chart 5: Spending Trend
         spend_df = spending_trend(df)
         if not spend_df.empty:
@@ -690,11 +964,10 @@ def render_dashboard(df: pd.DataFrame) -> None:
         else:
             st.info("No daily spending data available.")
 
-    with row3_col2:
+    with r3_col2:
         # Chart 6: Top Expenses (Horizontal Bar)
         top_exp_df = top_expenses(df, top_n=10)
         if not top_exp_df.empty:
-            # Sort ascending for clean horizontal bar presentation
             top_exp_sorted = top_exp_df.sort_values("Expense", ascending=True)
             fig_top = px.bar(
                 top_exp_sorted,
@@ -709,7 +982,7 @@ def render_dashboard(df: pd.DataFrame) -> None:
                 hovertemplate="<b>%{y}</b><br>Expense: ₹%{x:,.2f}<extra></extra>"
             )
             fig_top.update_xaxes(title_text="Amount (₹)")
-            fig_top.update_yaxes(title_text="Transaction Description")
+            fig_top.update_yaxes(title_text="Description")
             apply_chart_style(fig_top, "Top Expenses")
             st.plotly_chart(fig_top, use_container_width=True)
         else:
@@ -745,8 +1018,15 @@ def render_dashboard(df: pd.DataFrame) -> None:
 # -----------------------------------------------------------------------------
 def render_transactions(df: pd.DataFrame) -> None:
     """Render the detailed transactions page with formatted tables and CSV export."""
-    st.markdown("## 💳 Transactions")
-    st.caption("Search, inspect, and export your individual financial transactions.")
+    st.markdown(
+        """
+        <div class="saas-page-header">
+            <h1 class="saas-page-title">Transactions</h1>
+            <p class="saas-page-desc">Search, inspect, and export your individual financial records.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     if df.empty:
         st.warning("⚠️ No transactions match your current filters. Try resetting the filters in the sidebar.")
@@ -762,7 +1042,7 @@ def render_transactions(df: pd.DataFrame) -> None:
     sum_col2.metric("Filtered Income", format_inr(total_inc))
     sum_col3.metric("Filtered Expenses", format_inr(total_exp))
 
-    st.markdown("---")
+    st.markdown("<br>", unsafe_allow_html=True)
 
     # Prepare Display DataFrame with Indian Rupee formatting
     display_df = df.copy()
@@ -803,15 +1083,22 @@ def render_transactions(df: pd.DataFrame) -> None:
 # -----------------------------------------------------------------------------
 def render_analytics(df: pd.DataFrame) -> None:
     """Render the deep financial analytics page."""
-    st.markdown("## 📊 Analytics")
-    st.caption("Detailed breakdown of income streams, expense behaviors, and monthly performance.")
+    st.markdown(
+        """
+        <div class="saas-page-header">
+            <h1 class="saas-page-title">Analytics</h1>
+            <p class="saas-page-desc">In-depth breakdown of income streams, expense behaviors, and monthly performance.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     if df.empty:
         st.warning("⚠️ No transactions match your current filters. Adjust your sidebar filters to see analytics.")
         return
 
     # Section 1: Cash Flow
-    st.markdown("### 📈 Cash Flow Analysis")
+    st.markdown("<h3 style='color: #F8FAFC; margin-bottom: 0.75rem;'>Cash Flow Health</h3>", unsafe_allow_html=True)
     cf = cash_flow_metrics(df)
 
     cf_col1, cf_col2, cf_col3, cf_col4 = st.columns(4)
@@ -832,7 +1119,7 @@ def render_analytics(df: pd.DataFrame) -> None:
     else:
         cf_col4.metric("Cash Flow Rate", "N/A (No Income)")
 
-    st.markdown("---")
+    st.markdown("<br>", unsafe_allow_html=True)
 
     # Section 2: Income Analysis vs Expense Analysis tabs
     tab_income, tab_expense = st.tabs(["💰 Income Analysis", "💸 Expense Analysis"])
@@ -917,9 +1204,8 @@ def render_analytics(df: pd.DataFrame) -> None:
             else:
                 st.info("No categorized expense records.")
 
-        # Top 10 Expenses in Expense Tab
         if not exp_data["top_10"].empty:
-            st.markdown("#### Top 10 Expenses")
+            st.markdown("<h4 style='color: #F8FAFC; margin-top: 1rem;'>Top 10 Expenses</h4>", unsafe_allow_html=True)
             top_sorted = exp_data["top_10"].sort_values("Expense", ascending=True)
             fig_top10 = px.bar(
                 top_sorted,
@@ -933,14 +1219,13 @@ def render_analytics(df: pd.DataFrame) -> None:
             apply_chart_style(fig_top10, "Top 10 Expenses", height=380)
             st.plotly_chart(fig_top10, use_container_width=True)
 
-    st.markdown("---")
+    st.markdown("<br>", unsafe_allow_html=True)
 
     # Section 3: Monthly Comparison
-    st.markdown("### 📅 Monthly Comparison")
+    st.markdown("<h3 style='color: #F8FAFC; margin-bottom: 0.75rem;'>Monthly Comparison</h3>", unsafe_allow_html=True)
     comp = monthly_comparison(df)
 
     if comp["table"] is not None and not comp["table"].empty:
-        # Highlight Cards for Standout Months
         h1, h2, h3 = st.columns(3)
 
         if comp["best_cash_flow_month"]:
@@ -948,10 +1233,10 @@ def render_analytics(df: pd.DataFrame) -> None:
             with h1:
                 st.markdown(
                     f"""
-                    <div class="highlight-card best">
-                        <div class="highlight-title">🌟 Best Cash-Flow Month</div>
-                        <div class="highlight-month">{b_m['Month']}</div>
-                        <div class="highlight-amount" style="color: #10B981;">{format_inr(b_m['Net Cash Flow'])}</div>
+                    <div class="standout-card best">
+                        <div class="standout-label">🌟 Best Cash-Flow Month</div>
+                        <div class="standout-month">{b_m['Month']}</div>
+                        <div class="standout-val" style="color: #10B981;">{format_inr(b_m['Net Cash Flow'])}</div>
                     </div>
                     """,
                     unsafe_allow_html=True,
@@ -962,10 +1247,10 @@ def render_analytics(df: pd.DataFrame) -> None:
             with h2:
                 st.markdown(
                     f"""
-                    <div class="highlight-card spending">
-                        <div class="highlight-title">💸 Highest Spending Month</div>
-                        <div class="highlight-month">{s_m['Month']}</div>
-                        <div class="highlight-amount" style="color: #F43F5E;">{format_inr(s_m['Expenses'])}</div>
+                    <div class="standout-card spending">
+                        <div class="standout-label">💸 Highest Spending Month</div>
+                        <div class="standout-month">{s_m['Month']}</div>
+                        <div class="standout-val" style="color: #F43F5E;">{format_inr(s_m['Expenses'])}</div>
                     </div>
                     """,
                     unsafe_allow_html=True,
@@ -976,10 +1261,10 @@ def render_analytics(df: pd.DataFrame) -> None:
             with h3:
                 st.markdown(
                     f"""
-                    <div class="highlight-card income">
-                        <div class="highlight-title">💰 Highest Income Month</div>
-                        <div class="highlight-month">{i_m['Month']}</div>
-                        <div class="highlight-amount" style="color: #38BDF8;">{format_inr(i_m['Income'])}</div>
+                    <div class="standout-card income">
+                        <div class="standout-label">💰 Highest Income Month</div>
+                        <div class="standout-month">{i_m['Month']}</div>
+                        <div class="standout-val" style="color: #38BDF8;">{format_inr(i_m['Income'])}</div>
                     </div>
                     """,
                     unsafe_allow_html=True,
@@ -987,7 +1272,6 @@ def render_analytics(df: pd.DataFrame) -> None:
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # Monthly Comparison Grouped Chart
         fig_comp = px.bar(
             comp["table"],
             x="Month",
@@ -1004,7 +1288,6 @@ def render_analytics(df: pd.DataFrame) -> None:
         apply_chart_style(fig_comp, "Monthly Comparison", height=380)
         st.plotly_chart(fig_comp, use_container_width=True)
 
-        # Formatted Data Table for Monthly Comparison
         table_view = comp["table"].copy()
         table_view["Income"] = table_view["Income"].apply(format_inr)
         table_view["Expenses"] = table_view["Expenses"].apply(format_inr)
@@ -1021,8 +1304,15 @@ def render_analytics(df: pd.DataFrame) -> None:
 # -----------------------------------------------------------------------------
 def render_upload_data() -> None:
     """Render the upload personal dataset page with privacy protections."""
-    st.markdown("## 📁 Upload Data")
-    st.caption("Analyze your own bank statement or transaction register securely within this session.")
+    st.markdown(
+        """
+        <div class="saas-page-header">
+            <h1 class="saas-page-title">Upload Data</h1>
+            <p class="saas-page-desc">Analyze your own bank statement or spreadsheet securely in-session.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     # Privacy Guarantee Banners
     st.info(
@@ -1031,14 +1321,13 @@ def render_upload_data() -> None:
     )
     st.warning(
         "⚠️ **Security Notice:** Do not upload sensitive banking credentials. "
-        "Never share your bank passwords, PINs, OTPs, CVVs, or login credentials."
+        "Never share passwords, PINs, OTPs, CVVs, or internet banking logins."
     )
 
-    st.markdown("---")
+    st.markdown("<br>", unsafe_allow_html=True)
 
-    # File Uploader
     uploaded_file = st.file_uploader(
-        "Upload your own transaction data (CSV, XLSX, or XLS)",
+        "Upload your transaction register (CSV, XLSX, or XLS)",
         type=["csv", "xlsx", "xls"],
         help="Upload standard bank export files or spreadsheets.",
     )
@@ -1048,7 +1337,6 @@ def render_upload_data() -> None:
             with st.spinner("Processing and normalizing transaction columns..."):
                 processed_df = load_uploaded_data(uploaded_file)
 
-            # Store in session state
             st.session_state.uploaded_df = processed_df
             st.session_state.data_source = "uploaded"
             st.session_state.data_source_name = uploaded_file.name
@@ -1058,7 +1346,6 @@ def render_upload_data() -> None:
                 "The dashboard and analytics now reflect your data."
             )
 
-            # Preview Table
             st.markdown("### Data Preview (First 5 Transactions)")
             preview_df = processed_df.head(5).copy()
             preview_df["Date"] = pd.to_datetime(preview_df["Date"]).dt.strftime("%d %b %Y")
@@ -1086,9 +1373,8 @@ def render_upload_data() -> None:
         except Exception as e:
             st.error(f"❌ Unexpected error reading file: {str(e)}")
 
-    st.markdown("---")
+    st.markdown("<br>", unsafe_allow_html=True)
 
-    # File Format Guidance
     with st.expander("ℹ️ Supported Column Formats & Intelligent Recognition"):
         st.markdown(
             """
@@ -1103,9 +1389,8 @@ def render_upload_data() -> None:
             """
         )
 
-    # Reset Option
     if st.session_state.data_source == "uploaded":
-        st.markdown("### Reset Data")
+        st.markdown("<br>", unsafe_allow_html=True)
         if st.button("🔄 Switch Back to Demo Data"):
             st.session_state.data_source = "demo"
             st.session_state.data_source_name = "demo_transactions.csv"
@@ -1119,29 +1404,36 @@ def render_upload_data() -> None:
 # -----------------------------------------------------------------------------
 def render_about() -> None:
     """Render the project about page, feature checklist, and privacy declarations."""
-    if LOGO_PATH.exists():
-        st.image(str(LOGO_PATH), width=320)
-    st.markdown("## About FinTrack — Personal Financial Tracker")
+    logo_b64 = get_logo_base64()
+    if logo_b64:
+        st.markdown(
+            f"""
+            <div style="background: #FFFFFF; border-radius: 12px; padding: 14px 20px; display: inline-block; margin-bottom: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
+                <img src="data:image/png;base64,{logo_b64}" alt="FinTrack" style="max-width: 260px; height: auto; display: block;" />
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
     st.markdown(
         """
-        **FinTrack** is an interactive, privacy-first personal financial analytics dashboard designed
-        to help users understand their income patterns, expense behavior, spending categories,
-        and cash-flow health with intuitive visualizations and automated insights.
-        """
+        <div class="saas-page-header">
+            <h1 class="saas-page-title">About FinTrack</h1>
+            <p class="saas-page-desc">Personal Finance, Simplified — A Portfolio-Ready SaaS Application.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
 
-    st.markdown("---")
-
-    # Core Capabilities
     col1, col2 = st.columns(2)
 
     with col1:
         st.markdown(
             """
             ### ✨ Core Features
-            * 💰 **Income & Expense Tracking:** Real-time visibility into overall balances and cash flows.
-            * 🍩 **Category Classification:** Donut and bar breakdowns across standard lifestyle categories.
-            * 📅 **Monthly Comparative Analytics:** Head-to-head monthly cash-flow evaluation and peak detection.
+            * 💰 **Income & Expense Tracking:** Real-time visibility into balances and cash flows.
+            * 🍩 **Category Classification:** Donut and bar breakdowns across lifestyle categories.
+            * 📅 **Monthly Comparative Analytics:** Head-to-head cash flow evaluation and peak detection.
             * 📈 **Interactive Plotly Visualizations:** Responsive line, bar, donut, and distribution charts.
             * 🧠 **Smart English Insights:** Descriptive observations derived directly from transaction history.
             * 🔍 **Multi-dimensional Filtering:** Filter dynamically by Date Range, Type, Category, Description, and Amount.
@@ -1156,23 +1448,23 @@ def render_about() -> None:
             ### 🛠️ Technology Stack
             * **Python 3.10+**
             * **Streamlit:** Modern reactive web framework
-            * **Pandas:** High-performance data manipulation & aggregation
+            * **Pandas:** Tabular data manipulation & aggregation
             * **Plotly:** Interactive, responsive charting engine
             * **OpenPyXL:** Excel file processing (.xlsx/.xls)
             * **NumPy:** Numerical computing utilities
 
             ### 🔒 Privacy & Safety Declarations
-            * **Synthetic Demo Data:** The default database uses synthetic demo data and contains no real banking records.
-            * **Zero Server Storage:** Uploaded statements exist strictly in your active browser session memory and are never persisted to disk or databases.
+            * **Synthetic Demo Data:** The default database uses synthetic transactions with no real banking records.
+            * **Zero Server Storage:** Uploaded statements exist strictly in browser session memory and are never persisted to disk.
             * **No Credentials Required:** Never upload or share passwords, OTPs, or banking PINs.
             """
         )
 
-    st.markdown("---")
+    st.markdown("<br><hr style='border-color: rgba(255,255,255,0.08);'>", unsafe_allow_html=True)
     st.markdown(
         """
-        <div style="text-align: center; color: #94A3B8; font-size: 0.85rem; padding: 1rem 0;">
-            Personal Financial Tracker • Designed for GitHub & Streamlit Community Cloud Deployment
+        <div style="text-align: center; color: #64748B; font-size: 0.85rem; padding: 1rem 0;">
+            FinTrack • Personal Finance, Simplified • Designed for GitHub & Streamlit Community Cloud
         </div>
         """,
         unsafe_allow_html=True,
