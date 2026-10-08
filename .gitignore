@@ -26,6 +26,7 @@ data/personal_*
 .idea/
 .DS_Store
 Thumbs.db
+Screenshot*.png
 
 # Streamlit temporary data
 .streamlit/*.log

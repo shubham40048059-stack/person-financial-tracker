@@ -52,68 +52,68 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# Visual Design System & Color Palette
+# Visual Design System & Color Palette (Clean Executive SaaS Light Palette)
 # -----------------------------------------------------------------------------
 COLOR_PALETTE = {
-    "income": "#10B981",       # Emerald Green
-    "expense": "#F43F5E",      # Rose Red
-    "balance": "#38BDF8",      # Sky Blue
+    "income": "#059669",       # Rich Emerald Green
+    "expense": "#DC2626",      # Clean Crimson Red
+    "balance": "#0284C7",      # Vibrant Ocean Blue
     "neutral": "#64748B",      # Slate Gray
-    "accent1": "#8B5CF6",      # Violet
-    "accent2": "#F59E0B",      # Amber
-    "accent3": "#06B6D4",      # Cyan
-    "accent4": "#EC4899",      # Pink
+    "accent1": "#7C3AED",      # Violet
+    "accent2": "#D97706",      # Amber
+    "accent3": "#0891B2",      # Cyan
+    "accent4": "#DB2777",      # Pink
     "category_colors": [
-        "#10B981", "#38BDF8", "#F59E0B", "#F43F5E", "#8B5CF6",
-        "#06B6D4", "#EC4899", "#14B8A6", "#6366F1", "#F97316",
-        "#84CC16", "#A855F7", "#64748B", "#E11D48", "#0EA5E9"
+        "#059669", "#0284C7", "#D97706", "#DC2626", "#7C3AED",
+        "#0891B2", "#DB2777", "#0D9488", "#4F46E5", "#EA580C",
+        "#65A30D", "#9333EA", "#64748B", "#BE123C", "#0369A1"
     ]
 }
 
 
-def apply_chart_style(fig: go.Figure, title: str = "", height: int = 400) -> go.Figure:
-    """Apply SaaS-grade, clean, high-contrast styling to Plotly charts."""
+def apply_chart_style(fig: go.Figure, title: str = "", height: int = 320) -> go.Figure:
+    """Apply SaaS-grade, clean, legible styling for light background cards."""
     fig.update_layout(
         title=dict(
             text=f"<b>{title}</b>" if title else "",
-            font=dict(size=15, color="#F8FAFC", family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"),
+            font=dict(size=14, color="#0F172A", family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"),
             x=0.01,
             y=0.96,
         ),
         paper_bgcolor="rgba(0, 0, 0, 0)",
         plot_bgcolor="rgba(0, 0, 0, 0)",
-        font=dict(color="#94A3B8", size=12, family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"),
+        font=dict(color="#475569", size=11, family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"),
         height=height,
-        margin=dict(l=15, r=15, t=55 if title else 25, b=25),
+        margin=dict(l=15, r=15, t=48 if title else 20, b=20),
         legend=dict(
             orientation="h",
             yanchor="bottom",
             y=1.02,
             xanchor="right",
             x=1,
-            font=dict(size=11, color="#CBD5E1"),
+            font=dict(size=11, color="#334155"),
             bgcolor="rgba(0, 0, 0, 0)",
         ),
         hoverlabel=dict(
-            bgcolor="#1E293B",
+            bgcolor="#0F172A",
             font_size=12,
-            font_color="#F8FAFC",
-            bordercolor="rgba(255, 255, 255, 0.15)",
+            font_color="#FFFFFF",
+            bordercolor="#0F172A",
         ),
     )
     fig.update_xaxes(
-        gridcolor="rgba(255, 255, 255, 0.05)",
-        zerolinecolor="rgba(255, 255, 255, 0.1)",
+        gridcolor="#E2E8F0",
+        zerolinecolor="#CBD5E1",
         showline=True,
-        linecolor="rgba(255, 255, 255, 0.12)",
-        tickfont=dict(color="#94A3B8", size=11),
+        linecolor="#CBD5E1",
+        tickfont=dict(color="#64748B", size=11),
     )
     fig.update_yaxes(
-        gridcolor="rgba(255, 255, 255, 0.05)",
-        zerolinecolor="rgba(255, 255, 255, 0.1)",
+        gridcolor="#E2E8F0",
+        zerolinecolor="#CBD5E1",
         showline=True,
-        linecolor="rgba(255, 255, 255, 0.12)",
-        tickfont=dict(color="#94A3B8", size=11),
+        linecolor="#CBD5E1",
+        tickfont=dict(color="#64748B", size=11),
     )
     return fig
 
@@ -158,133 +158,166 @@ def get_active_dataframe() -> pd.DataFrame:
 
 
 # -----------------------------------------------------------------------------
-# High-End SaaS Custom Styling (CSS)
+# Clean Modern SaaS Styling (CSS)
 # -----------------------------------------------------------------------------
 def inject_custom_css() -> None:
     st.markdown(
         """
         <style>
-        /* Base page layout & typography */
+        /* Base page layout & clean background */
         html, body, [data-testid="stApp"], [data-testid="stAppViewContainer"] {
-            background-color: #0B0F17 !important;
-            color: #F8FAFC;
+            background-color: #F8FAFC !important;
+            color: #0F172A;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
         }
 
         .block-container {
-            padding-top: 1.5rem !important;
-            padding-bottom: 3.5rem !important;
+            padding-top: 1rem !important;
+            padding-bottom: 3rem !important;
             max-width: 95rem;
         }
 
-        /* Top header bar */
-        .saas-page-header {
+        /* 1. TOP BRAND NAVBAR (OUTSIDE SIDEBAR / MENU BAR) */
+        .fintrack-top-navbar {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 0.85rem 1.4rem;
             margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .top-navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .top-navbar-logo {
+            height: 48px;
+            width: auto;
+            max-width: 260px;
+            object-fit: contain;
+            display: block;
+        }
+        .top-navbar-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .meta-tag {
+            background: #F1F5F9;
+            color: #475569;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            padding: 0.3rem 0.65rem;
+            border-radius: 6px;
+            border: 1px solid #E2E8F0;
+        }
+        .meta-status-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #059669;
+            background: #ECFDF5;
+            border: 1px solid #A7F3D0;
+            padding: 0.25rem 0.65rem;
+            border-radius: 20px;
+        }
+        .meta-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #059669;
+        }
+
+        /* Page header title & subtitle */
+        .saas-page-header {
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
         }
         .saas-page-title {
-            font-size: 1.85rem;
-            font-weight: 700;
-            color: #F8FAFC;
-            letter-spacing: -0.025em;
+            font-size: 1.65rem;
+            font-weight: 750;
+            color: #0F172A;
+            letter-spacing: -0.02em;
             margin: 0;
             line-height: 1.2;
         }
         .saas-page-desc {
-            font-size: 0.92rem;
-            color: #94A3B8;
-            margin: 0.35rem 0 0 0;
+            font-size: 0.9rem;
+            color: #64748B;
+            margin: 0.25rem 0 0 0;
         }
 
-        /* SIDEBAR STYLING */
+        /* 2. SIDEBAR STYLING (MENU BAR IS CLEAN & COMPACT) */
         [data-testid="stSidebar"] {
-            background-color: #101726 !important;
-            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+            background-color: #FFFFFF !important;
+            border-right: 1px solid #E2E8F0 !important;
         }
         [data-testid="stSidebar"] > div:first-child {
-            padding-top: 1rem;
+            padding-top: 1.2rem;
             padding-left: 1.1rem;
             padding-right: 1.1rem;
         }
 
-        /* 1. SEPARATE BRAND LOGO CONTAINER */
-        .fintrack-brand-container {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.25rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .fintrack-brand-card {
-            background: #FFFFFF;
-            border-radius: 12px;
-            padding: 12px 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.28);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .fintrack-brand-logo-img {
-            width: 100%;
-            max-width: 220px;
-            height: auto;
-            display: block;
-            object-fit: contain;
-        }
-
-        /* Sidebar Section Headers */
         .sidebar-section-title {
             font-size: 0.72rem;
-            font-weight: 700;
+            font-weight: 750;
             letter-spacing: 0.08em;
             text-transform: uppercase;
             color: #64748B;
             margin-top: 1.25rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.45rem;
         }
         .sidebar-section-title:first-of-type {
             margin-top: 0;
         }
 
-        /* 2. SIDEBAR NAVIGATION MENU */
+        /* Radio Navigation Items in Sidebar */
         [data-testid="stSidebar"] [data-testid="stRadioGroup"] {
-            gap: 0.35rem !important;
+            gap: 0.25rem !important;
         }
         [data-testid="stSidebar"] [data-testid="stRadioOption"] {
             position: relative;
-            min-height: 2.6rem;
-            padding: 0.65rem 0.85rem !important;
+            min-height: 2.5rem;
+            padding: 0.55rem 0.85rem !important;
             border-radius: 8px;
             border: 1px solid transparent;
             background: transparent;
-            color: #CBD5E1 !important;
+            color: #334155 !important;
             cursor: pointer;
             transition: all 0.15s ease;
         }
-        /* Hide default round radio dots */
         [data-testid="stSidebar"] [data-testid="stRadioOption"] > div > div:first-child {
             display: none !important;
         }
         [data-testid="stSidebar"] [data-testid="stRadioOption"] p {
             margin: 0;
-            font-size: 0.92rem;
-            font-weight: 500;
+            font-size: 0.9rem;
+            font-weight: 550;
             line-height: 1.35;
         }
         [data-testid="stSidebar"] [data-testid="stRadioOption"]:hover {
-            background: #172234 !important;
-            color: #F8FAFC !important;
-            border-color: rgba(255, 255, 255, 0.06);
+            background: #F1F5F9 !important;
+            color: #0F172A !important;
         }
         [data-testid="stSidebar"] [data-testid="stRadioOption"][data-selected="true"] {
-            background: rgba(16, 185, 129, 0.14) !important;
-            border-color: rgba(16, 185, 129, 0.35) !important;
-            color: #34D399 !important;
-            font-weight: 600;
+            background: #ECFDF5 !important;
+            border-color: #A7F3D0 !important;
+            color: #059669 !important;
+            font-weight: 650;
         }
         [data-testid="stSidebar"] [data-testid="stRadioOption"][data-selected="true"] p {
-            color: #34D399 !important;
-            font-weight: 600;
+            color: #059669 !important;
+            font-weight: 650;
         }
         [data-testid="stSidebar"] [data-testid="stRadioOption"][data-selected="true"]::before {
             position: absolute;
@@ -293,17 +326,17 @@ def inject_custom_css() -> None:
             left: 0;
             width: 3px;
             border-radius: 0 3px 3px 0;
-            background: #10B981;
+            background: #059669;
             content: "";
         }
 
         /* Sidebar Dataset Status Card */
         .dataset-status-card {
-            background: #141E30;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
             border-radius: 8px;
-            padding: 0.75rem 0.85rem;
-            margin-bottom: 0.85rem;
+            padding: 0.7rem 0.85rem;
+            margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
             gap: 0.65rem;
@@ -315,23 +348,21 @@ def inject_custom_css() -> None:
             flex-shrink: 0;
         }
         .status-dot.demo {
-            background: #38BDF8;
-            box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+            background: #0284C7;
         }
         .status-dot.user {
-            background: #10B981;
-            box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+            background: #059669;
         }
         .dataset-title {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: #F1F5F9;
+            font-size: 0.8rem;
+            font-weight: 650;
+            color: #1E293B;
             line-height: 1.2;
             word-break: break-all;
         }
         .dataset-sub {
             font-size: 0.72rem;
-            color: #94A3B8;
+            color: #64748B;
             margin-top: 0.15rem;
         }
 
@@ -339,121 +370,122 @@ def inject_custom_css() -> None:
         .sidebar-footer-card {
             margin-top: 2rem;
             padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-top: 1px solid #E2E8F0;
             color: #64748B;
-            font-size: 0.78rem;
-            line-height: 1.45;
+            font-size: 0.75rem;
+            line-height: 1.4;
         }
         .footer-brand {
-            font-weight: 600;
-            color: #94A3B8;
+            font-weight: 650;
+            color: #334155;
         }
 
-        /* METRIC CARDS (Clean SaaS KPI Cards) */
+        /* 3. METRIC CARDS (CLEAN SAAS KPI TILES ON WHITE) */
         .kpi-card {
-            background: #131B2A;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
             border-radius: 12px;
-            padding: 1.1rem 1.2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.15s ease, border-color 0.15s ease;
+            padding: 1rem 1.15rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            transition: all 0.15s ease;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 108px;
+            min-height: 104px;
         }
         .kpi-card:hover {
             transform: translateY(-2px);
-            border-color: rgba(255, 255, 255, 0.16);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            border-color: #CBD5E1;
         }
         .kpi-header {
             display: flex;
             align-items: center;
-            gap: 0.45rem;
-            color: #94A3B8;
-            font-size: 0.78rem;
-            font-weight: 600;
+            gap: 0.4rem;
+            color: #64748B;
+            font-size: 0.76rem;
+            font-weight: 650;
             text-transform: uppercase;
             letter-spacing: 0.04em;
         }
         .kpi-value {
             font-size: 1.45rem;
-            font-weight: 700;
-            color: #F8FAFC;
+            font-weight: 750;
+            color: #0F172A;
             letter-spacing: -0.02em;
-            margin: 0.35rem 0 0.15rem 0;
+            margin: 0.35rem 0 0.1rem 0;
             line-height: 1.2;
         }
         .kpi-value.balance {
-            color: #38BDF8;
+            color: #0284C7;
         }
         .kpi-value.income {
-            color: #10B981;
+            color: #059669;
         }
         .kpi-value.expense {
-            color: #F43F5E;
+            color: #DC2626;
         }
         .kpi-value.positive {
-            color: #10B981;
+            color: #059669;
         }
         .kpi-value.negative {
-            color: #F43F5E;
+            color: #DC2626;
         }
         .kpi-sub {
             font-size: 0.72rem;
-            color: #64748B;
+            color: #94A3B8;
         }
 
-        /* SUMMARY CALLOUT BOX */
+        /* 4. SUMMARY CALLOUT BOX */
         .summary-card {
-            background: #131B2A;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-left: 4px solid #10B981;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-left: 4px solid #059669;
             border-radius: 10px;
-            padding: 1.2rem 1.4rem;
-            margin: 1.25rem 0 1.75rem 0;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+            padding: 1.1rem 1.35rem;
+            margin: 1.25rem 0 1.5rem 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         }
         .summary-header {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 700;
-            color: #F8FAFC;
-            margin-bottom: 0.75rem;
+            color: #0F172A;
+            margin-bottom: 0.65rem;
         }
         .summary-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 0.55rem 1.5rem;
+            gap: 0.45rem 1.5rem;
         }
         .summary-item {
-            color: #CBD5E1;
-            font-size: 0.92rem;
+            color: #334155;
+            font-size: 0.9rem;
             display: flex;
             align-items: baseline;
             gap: 0.5rem;
             line-height: 1.45;
         }
         .summary-bullet {
-            color: #10B981;
+            color: #059669;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
-        /* SAAS DEMO BANNER */
+        /* 5. SAAS DEMO BANNER */
         .saas-banner {
-            background: rgba(56, 189, 248, 0.06);
-            border: 1px solid rgba(56, 189, 248, 0.22);
+            background: #F0F9FF;
+            border: 1px solid #BAE6FD;
             border-radius: 10px;
-            padding: 0.85rem 1.15rem;
-            margin-bottom: 1.5rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.25rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
-            gap: 0.85rem;
+            gap: 0.75rem;
         }
         .saas-banner-left {
             display: flex;
@@ -462,69 +494,127 @@ def inject_custom_css() -> None:
             flex-wrap: wrap;
         }
         .saas-banner-pill {
-            background: rgba(56, 189, 248, 0.18);
-            color: #38BDF8;
-            font-size: 0.7rem;
+            background: #0284C7;
+            color: #FFFFFF;
+            font-size: 0.68rem;
             font-weight: 700;
-            letter-spacing: 0.06em;
-            padding: 0.2rem 0.55rem;
+            letter-spacing: 0.05em;
+            padding: 0.2rem 0.5rem;
             border-radius: 4px;
             text-transform: uppercase;
         }
         .saas-banner-text {
-            color: #E2E8F0;
-            font-size: 0.9rem;
+            color: #0369A1;
+            font-size: 0.88rem;
+            font-weight: 500;
         }
 
-        /* CHART CONTAINER CARD */
+        /* 6. CHART CONTAINER CARD */
         .chart-card {
-            background: #131B2A;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
             border-radius: 12px;
             padding: 1rem;
-            margin-bottom: 1.25rem;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         }
 
-        /* STANDOUT MONTHLY CARDS */
-        .standout-card {
-            background: #131B2A;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 1.1rem 1.25rem;
-            text-align: center;
+        /* 7. COMPACT, READABLE ANALYTICS STYLING */
+        .analytics-strip {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
-        .standout-card.best {
-            border-top: 3px solid #10B981;
+        .strip-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
         }
-        .standout-card.spending {
-            border-top: 3px solid #F43F5E;
-        }
-        .standout-card.income {
-            border-top: 3px solid #38BDF8;
-        }
-        .standout-label {
+        .strip-label {
             font-size: 0.75rem;
-            color: #94A3B8;
+            font-weight: 650;
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            font-weight: 600;
-            margin-bottom: 0.35rem;
+            letter-spacing: 0.04em;
+            color: #64748B;
         }
-        .standout-month {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #F8FAFC;
+        .strip-value {
+            font-size: 1.45rem;
+            font-weight: 750;
+            color: #0F172A;
+            letter-spacing: -0.02em;
         }
-        .standout-val {
+        .strip-sub {
+            font-size: 0.75rem;
+            color: #64748B;
+        }
+
+        .highlight-badge-card {
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            padding: 0.85rem 1rem;
+            margin-bottom: 0.65rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .highlight-badge-card.best {
+            border-left: 4px solid #059669;
+        }
+        .highlight-badge-card.spending {
+            border-left: 4px solid #DC2626;
+        }
+        .highlight-badge-card.income {
+            border-left: 4px solid #0284C7;
+        }
+        .highlight-badge-title {
+            font-size: 0.75rem;
+            font-weight: 650;
+            color: #64748B;
+            text-transform: uppercase;
+        }
+        .highlight-badge-month {
             font-size: 0.95rem;
-            font-weight: 600;
-            margin-top: 0.25rem;
+            font-weight: 700;
+            color: #0F172A;
+        }
+        .highlight-badge-amt {
+            font-size: 0.92rem;
+            font-weight: 700;
         }
         </style>
         """,
         unsafe_allow_html=True,
     )
+
+
+# -----------------------------------------------------------------------------
+# Top Brand Bar Renderer (OUTSIDE THE MENU BAR / SIDEBAR)
+# -----------------------------------------------------------------------------
+def render_top_brand_bar() -> None:
+    """Render the official brand header at the top of the main viewport, outside sidebar."""
+    logo_b64 = get_logo_base64()
+    if logo_b64:
+        st.markdown(
+            f"""
+            <div class="fintrack-top-navbar">
+                <div class="top-navbar-brand">
+                    <img src="data:image/png;base64,{logo_b64}" alt="FinTrack - Personal Finance, Simplified" class="top-navbar-logo" />
+                </div>
+                <div class="top-navbar-meta">
+                    <span class="meta-tag">FINANCIAL TRACKER</span>
+                    <span class="meta-status-pill"><span class="meta-dot"></span> Active Session</span>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
 
 # -----------------------------------------------------------------------------
@@ -611,35 +701,11 @@ def render_metric_cards(metrics: Dict[str, Any]) -> None:
 
 
 # -----------------------------------------------------------------------------
-# Sidebar Navigation and Filters
+# Sidebar Navigation and Filters (CLEAN MENU BAR WITHOUT CROWDED LOGO)
 # -----------------------------------------------------------------------------
 def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
-    """Render sidebar with completely separate brand card, navigation menu, and filters."""
-    # 1. SEPARATE BRAND LOGO SECTION (Distinct container with breathing room)
-    logo_b64 = get_logo_base64()
-    if logo_b64:
-        st.sidebar.markdown(
-            f"""
-            <div class="fintrack-brand-container">
-                <div class="fintrack-brand-card">
-                    <img src="data:image/png;base64,{logo_b64}" alt="FinTrack - Personal Finance, Simplified" class="fintrack-brand-logo-img" />
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-    else:
-        st.sidebar.markdown(
-            """
-            <div class="fintrack-brand-container">
-                <h2 style="margin: 0; color: #10B981; font-weight: 800; letter-spacing: -0.03em;">FinTrack</h2>
-                <div style="font-size: 0.8rem; color: #94A3B8; margin-top: 0.2rem;">Personal Finance, Simplified</div>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
-
-    # 2. SEPARATE NAVIGATION SECTION
+    """Render a clean sidebar menu containing navigation, active dataset, and filters."""
+    # 1. NAVIGATION MENU (Clean, spacious, uncrowded)
     st.sidebar.markdown('<div class="sidebar-section-title">NAVIGATION</div>', unsafe_allow_html=True)
     pages = ["🏠 Dashboard", "💳 Transactions", "📊 Analytics", "📁 Upload Data", "ℹ️ About"]
     selected_page = st.sidebar.radio(
@@ -650,7 +716,7 @@ def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
     )
     st.session_state.current_page = selected_page
 
-    # 3. DATASET STATUS CARD
+    # 2. DATASET STATUS CARD
     st.sidebar.markdown('<div class="sidebar-section-title">DATA SOURCE</div>', unsafe_allow_html=True)
     if st.session_state.data_source == "demo":
         st.sidebar.markdown(
@@ -658,8 +724,8 @@ def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
             <div class="dataset-status-card">
                 <span class="status-dot demo"></span>
                 <div>
-                    <div class="dataset-title">Synthetic Demo Database</div>
-                    <div class="dataset-sub">{len(df)} verified transactions</div>
+                    <div class="dataset-title">Demo Database</div>
+                    <div class="dataset-sub">{len(df)} synthetic records</div>
                 </div>
             </div>
             """,
@@ -672,7 +738,7 @@ def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
                 <span class="status-dot user"></span>
                 <div>
                     <div class="dataset-title">{st.session_state.data_source_name}</div>
-                    <div class="dataset-sub">Active session dataset ({len(df)} records)</div>
+                    <div class="dataset-sub">Active session ({len(df)} records)</div>
                 </div>
             </div>
             """,
@@ -684,7 +750,7 @@ def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
             st.session_state.uploaded_df = None
             st.rerun()
 
-    # 4. FILTERS SECTION (Dashboard, Transactions, Analytics)
+    # 3. FILTERS SECTION (Dashboard, Transactions, Analytics)
     filter_values = {}
     if selected_page in ["🏠 Dashboard", "💳 Transactions", "📊 Analytics"]:
         st.sidebar.markdown('<div class="sidebar-section-title">FILTERS</div>', unsafe_allow_html=True)
@@ -759,13 +825,13 @@ def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
     else:
         filtered_df = df
 
-    # 5. SIDEBAR FOOTER
+    # 4. SIDEBAR FOOTER
     st.sidebar.markdown(
         """
         <div class="sidebar-footer-card">
             <div class="footer-brand">FinTrack Personal Finance</div>
             <div>Portfolio-Ready SaaS Dashboard</div>
-            <div style="margin-top: 0.35rem; color: #475569;">Synthetic demo data • Zero tracking</div>
+            <div style="margin-top: 0.3rem; color: #94A3B8;">Synthetic demo data • Zero tracking</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -779,12 +845,15 @@ def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
 # -----------------------------------------------------------------------------
 def render_dashboard(df: pd.DataFrame) -> None:
     """Render the clean SaaS financial dashboard."""
+    # Top Brand Bar (Logo outside menu bar)
+    render_top_brand_bar()
+
     # Page Header
     st.markdown(
         """
         <div class="saas-page-header">
             <h1 class="saas-page-title">Financial Overview</h1>
-            <p class="saas-page-desc">A consolidated snapshot of your balance trends, cash flows, and category spending.</p>
+            <p class="saas-page-desc">A consolidated snapshot of your balances, cash flows, and category spending.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -837,7 +906,7 @@ def render_dashboard(df: pd.DataFrame) -> None:
     st.markdown(summary_html, unsafe_allow_html=True)
 
     # 3. Interactive Charts
-    st.markdown("<h3 style='color: #F8FAFC; margin: 1.5rem 0 1rem 0;'>Financial Trends & Breakdowns</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color: #0F172A; font-size: 1.15rem; margin: 1.5rem 0 0.85rem 0;'>Financial Trends & Breakdowns</h3>", unsafe_allow_html=True)
 
     # Row 1: Balance Trend & Monthly Income vs Expenses
     r1_col1, r1_col2 = st.columns(2)
@@ -1009,7 +1078,7 @@ def render_dashboard(df: pd.DataFrame) -> None:
         )
         fig_dist.update_xaxes(title_text="Transaction Type")
         fig_dist.update_yaxes(title_text="Number of Transactions")
-        apply_chart_style(fig_dist, "Transaction Distribution", height=320)
+        apply_chart_style(fig_dist, "Transaction Distribution", height=300)
         st.plotly_chart(fig_dist, use_container_width=True)
 
 
@@ -1018,6 +1087,8 @@ def render_dashboard(df: pd.DataFrame) -> None:
 # -----------------------------------------------------------------------------
 def render_transactions(df: pd.DataFrame) -> None:
     """Render the detailed transactions page with formatted tables and CSV export."""
+    render_top_brand_bar()
+
     st.markdown(
         """
         <div class="saas-page-header">
@@ -1032,7 +1103,7 @@ def render_transactions(df: pd.DataFrame) -> None:
         st.warning("⚠️ No transactions match your current filters. Try resetting the filters in the sidebar.")
         return
 
-    # Transaction Summary Pill
+    # Transaction Summary Pills
     total_inc = df["Income"].sum()
     total_exp = df["Expense"].sum()
     total_count = len(df)
@@ -1079,15 +1150,17 @@ def render_transactions(df: pd.DataFrame) -> None:
 
 
 # -----------------------------------------------------------------------------
-# PAGE 3: Analytics
+# PAGE 3: Analytics (COMPACT, READABLE & INTUITIVE REDESIGN)
 # -----------------------------------------------------------------------------
 def render_analytics(df: pd.DataFrame) -> None:
-    """Render the deep financial analytics page."""
+    """Render clean, compact, easy-to-read financial analytics."""
+    render_top_brand_bar()
+
     st.markdown(
         """
         <div class="saas-page-header">
-            <h1 class="saas-page-title">Analytics</h1>
-            <p class="saas-page-desc">In-depth breakdown of income streams, expense behaviors, and monthly performance.</p>
+            <h1 class="saas-page-title">Financial Analytics</h1>
+            <p class="saas-page-desc">Executive summary of cash flow health, monthly comparisons, and spending patterns.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -1097,58 +1170,140 @@ def render_analytics(df: pd.DataFrame) -> None:
         st.warning("⚠️ No transactions match your current filters. Adjust your sidebar filters to see analytics.")
         return
 
-    # Section 1: Cash Flow
-    st.markdown("<h3 style='color: #F8FAFC; margin-bottom: 0.75rem;'>Cash Flow Health</h3>", unsafe_allow_html=True)
+    # 1. EXECUTIVE CASH FLOW STRIP (Compact & easy to understand)
     cf = cash_flow_metrics(df)
+    cf_rate_text = f"{cf['cash_flow_rate']:.1f}%" if cf["cash_flow_rate"] is not None else "N/A"
+    net_cf_color = "#059669" if cf["net_cash_flow"] >= 0 else "#DC2626"
 
-    cf_col1, cf_col2, cf_col3, cf_col4 = st.columns(4)
-    cf_col1.metric("Total Income", format_inr(cf["total_income"]))
-    cf_col2.metric("Total Expenses", format_inr(cf["total_expenses"]))
-    cf_col3.metric(
-        "Net Cash Flow",
-        format_inr(cf["net_cash_flow"]),
-        delta=f"{format_inr(cf['net_cash_flow'])}",
-        delta_color="normal" if cf["net_cash_flow"] >= 0 else "inverse",
+    st.markdown(
+        f"""
+        <div class="analytics-strip">
+            <div class="strip-item">
+                <span class="strip-label">Total Inflow</span>
+                <span class="strip-value" style="color: #059669;">{format_inr(cf['total_income'])}</span>
+                <span class="strip-sub">Total incoming revenue</span>
+            </div>
+            <div class="strip-item">
+                <span class="strip-label">Total Outflow</span>
+                <span class="strip-value" style="color: #DC2626;">{format_inr(cf['total_expenses'])}</span>
+                <span class="strip-sub">Total expenses incurred</span>
+            </div>
+            <div class="strip-item">
+                <span class="strip-label">Net Cash Flow</span>
+                <span class="strip-value" style="color: {net_cf_color};">{format_inr(cf['net_cash_flow'])}</span>
+                <span class="strip-sub">Inflow minus outflow</span>
+            </div>
+            <div class="strip-item">
+                <span class="strip-label">Savings Rate</span>
+                <span class="strip-value" style="color: #0284C7;">{cf_rate_text}</span>
+                <span class="strip-sub">Retained revenue share</span>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
-    if cf["cash_flow_rate"] is not None:
-        cf_col4.metric(
-            "Cash Flow / Savings Rate",
-            f"{cf['cash_flow_rate']:.1f}%",
-            help="Net Cash Flow divided by Total Income × 100",
-        )
-    else:
-        cf_col4.metric("Cash Flow Rate", "N/A (No Income)")
 
-    st.markdown("<br>", unsafe_allow_html=True)
+    # 2. STREAMLINED TABS (Compact, intuitive, non-massive)
+    tab_monthly, tab_deepdive, tab_top = st.tabs([
+        "📅 Monthly Performance",
+        "⚖️ Income vs Expenses",
+        "🏆 Top Spending Drivers"
+    ])
 
-    # Section 2: Income Analysis vs Expense Analysis tabs
-    tab_income, tab_expense = st.tabs(["💰 Income Analysis", "💸 Expense Analysis"])
+    with tab_monthly:
+        comp = monthly_comparison(df)
+        if comp["table"] is not None and not comp["table"].empty:
+            m_col_left, m_col_right = st.columns([1.5, 1])
 
-    with tab_income:
-        inc_data = income_analysis(df)
-        inc_c1, inc_c2, inc_c3, inc_c4 = st.columns(4)
-        inc_c1.metric("Total Income", format_inr(inc_data["total_income"]))
-        inc_c2.metric("Income Transactions", f"{inc_data['count']}")
-        inc_c3.metric("Average Income", format_inr(inc_data["average"]))
-        inc_c4.metric("Largest Income", format_inr(inc_data["largest"]))
-
-        ch_col1, ch_col2 = st.columns(2)
-        with ch_col1:
-            if not inc_data["by_month"].empty:
-                fig_inc_m = px.bar(
-                    inc_data["by_month"],
+            with m_col_left:
+                fig_comp = px.bar(
+                    comp["table"],
                     x="Month",
-                    y="Income",
-                    title="Income by Month",
-                    color_discrete_sequence=[COLOR_PALETTE["income"]],
+                    y=["Income", "Expenses", "Net Cash Flow"],
+                    barmode="group",
+                    title="Monthly Cash Flow Overview",
+                    color_discrete_map={
+                        "Income": COLOR_PALETTE["income"],
+                        "Expenses": COLOR_PALETTE["expense"],
+                        "Net Cash Flow": COLOR_PALETTE["balance"],
+                    },
                 )
-                fig_inc_m.update_traces(hovertemplate="<b>%{x}</b>: ₹%{y:,.2f}<extra></extra>")
-                apply_chart_style(fig_inc_m, "Income by Month")
-                st.plotly_chart(fig_inc_m, use_container_width=True)
-            else:
-                st.info("No monthly income records.")
+                fig_comp.update_traces(hovertemplate="<b>%{x}</b><br>%{data.name}: ₹%{y:,.2f}<extra></extra>")
+                apply_chart_style(fig_comp, "Monthly Cash Flow Overview", height=290)
+                st.plotly_chart(fig_comp, use_container_width=True)
 
-        with ch_col2:
+            with m_col_right:
+                st.markdown("<div style='font-size: 0.85rem; font-weight: 700; color: #475569; margin-bottom: 0.6rem; text-transform: uppercase;'>Key Highlights</div>", unsafe_allow_html=True)
+                if comp["best_cash_flow_month"]:
+                    b_m = comp["best_cash_flow_month"]
+                    st.markdown(
+                        f"""
+                        <div class="highlight-badge-card best">
+                            <div>
+                                <div class="highlight-badge-title">Best Cash-Flow</div>
+                                <div class="highlight-badge-month">{b_m['Month']}</div>
+                            </div>
+                            <div class="highlight-badge-amt" style="color: #059669;">{format_inr(b_m['Net Cash Flow'])}</div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+                if comp["highest_spending_month"]:
+                    s_m = comp["highest_spending_month"]
+                    st.markdown(
+                        f"""
+                        <div class="highlight-badge-card spending">
+                            <div>
+                                <div class="highlight-badge-title">Peak Outflow</div>
+                                <div class="highlight-badge-month">{s_m['Month']}</div>
+                            </div>
+                            <div class="highlight-badge-amt" style="color: #DC2626;">{format_inr(s_m['Expenses'])}</div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+                if comp["highest_income_month"]:
+                    i_m = comp["highest_income_month"]
+                    st.markdown(
+                        f"""
+                        <div class="highlight-badge-card income">
+                            <div>
+                                <div class="highlight-badge-title">Peak Inflow</div>
+                                <div class="highlight-badge-month">{i_m['Month']}</div>
+                            </div>
+                            <div class="highlight-badge-amt" style="color: #0284C7;">{format_inr(i_m['Income'])}</div>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+            # Compact monthly breakdown table
+            st.markdown("<div style='font-size: 0.85rem; font-weight: 700; color: #475569; margin: 0.85rem 0 0.4rem 0; text-transform: uppercase;'>Monthly Summary Table</div>", unsafe_allow_html=True)
+            table_view = comp["table"].copy()
+            table_view["Income"] = table_view["Income"].apply(format_inr)
+            table_view["Expenses"] = table_view["Expenses"].apply(format_inr)
+            table_view["Net Cash Flow"] = table_view["Net Cash Flow"].apply(format_inr)
+            st.dataframe(
+                table_view[["Month", "Income", "Expenses", "Net Cash Flow", "Transactions"]],
+                use_container_width=True,
+                hide_index=True,
+            )
+
+    with tab_deepdive:
+        inc_data = income_analysis(df)
+        exp_data = expense_analysis(df)
+
+        d_col1, d_col2 = st.columns(2)
+
+        with d_col1:
+            st.markdown("<div style='font-size: 0.88rem; font-weight: 750; color: #059669; margin-bottom: 0.5rem;'>💰 INCOME BREAKDOWN</div>", unsafe_allow_html=True)
+            i1, i2, i3 = st.columns(3)
+            i1.metric("Credits", f"{inc_data['count']}")
+            i2.metric("Average", format_inr(inc_data['average']))
+            i3.metric("Peak Credit", format_inr(inc_data['largest']))
+
             if not inc_data["by_category"].empty:
                 fig_inc_cat = px.pie(
                     inc_data["by_category"],
@@ -1156,56 +1311,36 @@ def render_analytics(df: pd.DataFrame) -> None:
                     values="Income",
                     title="Income by Category",
                     color_discrete_sequence=COLOR_PALETTE["category_colors"],
-                    hole=0.4,
+                    hole=0.45,
                 )
                 fig_inc_cat.update_traces(hovertemplate="<b>%{label}</b>: ₹%{value:,.2f}<extra></extra>")
-                apply_chart_style(fig_inc_cat, "Income by Category")
+                apply_chart_style(fig_inc_cat, "Income Sources", height=260)
                 st.plotly_chart(fig_inc_cat, use_container_width=True)
-            else:
-                st.info("No categorized income records.")
 
-    with tab_expense:
-        exp_data = expense_analysis(df)
-        exp_c1, exp_c2, exp_c3, exp_c4 = st.columns(4)
-        exp_c1.metric("Total Expenses", format_inr(exp_data["total_expenses"]))
-        exp_c2.metric("Expense Transactions", f"{exp_data['count']}")
-        exp_c3.metric("Average Expense", format_inr(exp_data["average"]))
-        exp_c4.metric("Largest Expense", format_inr(exp_data["largest"]))
+        with d_col2:
+            st.markdown("<div style='font-size: 0.88rem; font-weight: 750; color: #DC2626; margin-bottom: 0.5rem;'>💸 EXPENSE BREAKDOWN</div>", unsafe_allow_html=True)
+            e1, e2, e3 = st.columns(3)
+            e1.metric("Debits", f"{exp_data['count']}")
+            e2.metric("Average", format_inr(exp_data['average']))
+            e3.metric("Peak Debit", format_inr(exp_data['largest']))
 
-        ech_col1, ech_col2 = st.columns(2)
-        with ech_col1:
-            if not exp_data["by_month"].empty:
-                fig_exp_m = px.bar(
-                    exp_data["by_month"],
-                    x="Month",
-                    y="Expenses",
-                    title="Expense by Month",
-                    color_discrete_sequence=[COLOR_PALETTE["expense"]],
-                )
-                fig_exp_m.update_traces(hovertemplate="<b>%{x}</b>: ₹%{y:,.2f}<extra></extra>")
-                apply_chart_style(fig_exp_m, "Expense by Month")
-                st.plotly_chart(fig_exp_m, use_container_width=True)
-            else:
-                st.info("No monthly expense records.")
-
-        with ech_col2:
             if not exp_data["by_category"].empty:
                 fig_exp_cat = px.bar(
-                    exp_data["by_category"],
+                    exp_data["by_category"].head(6),
                     x="Category",
                     y="Amount",
-                    title="Expense by Category",
+                    title="Top Spending Categories",
                     color="Category",
                     color_discrete_sequence=COLOR_PALETTE["category_colors"],
                 )
                 fig_exp_cat.update_traces(hovertemplate="<b>%{x}</b>: ₹%{y:,.2f}<extra></extra>")
-                apply_chart_style(fig_exp_cat, "Expense by Category")
+                apply_chart_style(fig_exp_cat, "Top Spending Categories", height=260)
                 st.plotly_chart(fig_exp_cat, use_container_width=True)
-            else:
-                st.info("No categorized expense records.")
 
+    with tab_top:
+        exp_data = expense_analysis(df)
         if not exp_data["top_10"].empty:
-            st.markdown("<h4 style='color: #F8FAFC; margin-top: 1rem;'>Top 10 Expenses</h4>", unsafe_allow_html=True)
+            st.markdown("<div style='font-size: 0.85rem; font-weight: 700; color: #475569; margin-bottom: 0.5rem; text-transform: uppercase;'>10 Largest Individual Outflows</div>", unsafe_allow_html=True)
             top_sorted = exp_data["top_10"].sort_values("Expense", ascending=True)
             fig_top10 = px.bar(
                 top_sorted,
@@ -1216,87 +1351,8 @@ def render_analytics(df: pd.DataFrame) -> None:
                 color_discrete_sequence=COLOR_PALETTE["category_colors"],
             )
             fig_top10.update_traces(hovertemplate="<b>%{y}</b>: ₹%{x:,.2f}<extra></extra>")
-            apply_chart_style(fig_top10, "Top 10 Expenses", height=380)
+            apply_chart_style(fig_top10, "10 Largest Outflows", height=320)
             st.plotly_chart(fig_top10, use_container_width=True)
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # Section 3: Monthly Comparison
-    st.markdown("<h3 style='color: #F8FAFC; margin-bottom: 0.75rem;'>Monthly Comparison</h3>", unsafe_allow_html=True)
-    comp = monthly_comparison(df)
-
-    if comp["table"] is not None and not comp["table"].empty:
-        h1, h2, h3 = st.columns(3)
-
-        if comp["best_cash_flow_month"]:
-            b_m = comp["best_cash_flow_month"]
-            with h1:
-                st.markdown(
-                    f"""
-                    <div class="standout-card best">
-                        <div class="standout-label">🌟 Best Cash-Flow Month</div>
-                        <div class="standout-month">{b_m['Month']}</div>
-                        <div class="standout-val" style="color: #10B981;">{format_inr(b_m['Net Cash Flow'])}</div>
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-
-        if comp["highest_spending_month"]:
-            s_m = comp["highest_spending_month"]
-            with h2:
-                st.markdown(
-                    f"""
-                    <div class="standout-card spending">
-                        <div class="standout-label">💸 Highest Spending Month</div>
-                        <div class="standout-month">{s_m['Month']}</div>
-                        <div class="standout-val" style="color: #F43F5E;">{format_inr(s_m['Expenses'])}</div>
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-
-        if comp["highest_income_month"]:
-            i_m = comp["highest_income_month"]
-            with h3:
-                st.markdown(
-                    f"""
-                    <div class="standout-card income">
-                        <div class="standout-label">💰 Highest Income Month</div>
-                        <div class="standout-month">{i_m['Month']}</div>
-                        <div class="standout-val" style="color: #38BDF8;">{format_inr(i_m['Income'])}</div>
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
-                )
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        fig_comp = px.bar(
-            comp["table"],
-            x="Month",
-            y=["Income", "Expenses", "Net Cash Flow"],
-            barmode="group",
-            title="Monthly Comparison: Income, Expenses & Net Cash Flow",
-            color_discrete_map={
-                "Income": COLOR_PALETTE["income"],
-                "Expenses": COLOR_PALETTE["expense"],
-                "Net Cash Flow": COLOR_PALETTE["balance"],
-            },
-        )
-        fig_comp.update_traces(hovertemplate="<b>%{x}</b><br>%{data.name}: ₹%{y:,.2f}<extra></extra>")
-        apply_chart_style(fig_comp, "Monthly Comparison", height=380)
-        st.plotly_chart(fig_comp, use_container_width=True)
-
-        table_view = comp["table"].copy()
-        table_view["Income"] = table_view["Income"].apply(format_inr)
-        table_view["Expenses"] = table_view["Expenses"].apply(format_inr)
-        table_view["Net Cash Flow"] = table_view["Net Cash Flow"].apply(format_inr)
-        st.dataframe(
-            table_view[["Month", "Income", "Expenses", "Net Cash Flow", "Transactions"]],
-            use_container_width=True,
-            hide_index=True,
-        )
 
 
 # -----------------------------------------------------------------------------
@@ -1304,6 +1360,8 @@ def render_analytics(df: pd.DataFrame) -> None:
 # -----------------------------------------------------------------------------
 def render_upload_data() -> None:
     """Render the upload personal dataset page with privacy protections."""
+    render_top_brand_bar()
+
     st.markdown(
         """
         <div class="saas-page-header">
@@ -1404,16 +1462,7 @@ def render_upload_data() -> None:
 # -----------------------------------------------------------------------------
 def render_about() -> None:
     """Render the project about page, feature checklist, and privacy declarations."""
-    logo_b64 = get_logo_base64()
-    if logo_b64:
-        st.markdown(
-            f"""
-            <div style="background: #FFFFFF; border-radius: 12px; padding: 14px 20px; display: inline-block; margin-bottom: 1.5rem; box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
-                <img src="data:image/png;base64,{logo_b64}" alt="FinTrack" style="max-width: 260px; height: auto; display: block;" />
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+    render_top_brand_bar()
 
     st.markdown(
         """
@@ -1460,7 +1509,7 @@ def render_about() -> None:
             """
         )
 
-    st.markdown("<br><hr style='border-color: rgba(255,255,255,0.08);'>", unsafe_allow_html=True)
+    st.markdown("<br><hr style='border-color: #E2E8F0;'>", unsafe_allow_html=True)
     st.markdown(
         """
         <div style="text-align: center; color: #64748B; font-size: 0.85rem; padding: 1rem 0;">
@@ -1482,7 +1531,7 @@ def main() -> None:
     # 2. Retrieve Active Dataframe
     active_df = get_active_dataframe()
 
-    # 3. Render Sidebar Controls & Filter Data
+    # 3. Render Sidebar Controls & Filter Data (CLEAN MENU BAR)
     filtered_df, _ = render_sidebar(active_df)
 
     # 4. Route to Active Page
