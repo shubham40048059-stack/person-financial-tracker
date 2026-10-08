@@ -33,12 +33,16 @@ from utils.analyzer import (
 from utils.data_loader import DEFAULT_DEMO_PATH, load_demo_data, load_uploaded_data
 from utils.helpers import format_inr
 
+APP_DIR = Path(__file__).resolve().parent
+LOGO_PATH = APP_DIR / "assets" / "fintrack-logo.png"
+ICON_PATH = APP_DIR / "assets" / "fintrack-icon.png"
+
 # -----------------------------------------------------------------------------
 # App Configuration & Page Setup
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="Personal Financial Tracker",
-    page_icon="💰",
+    page_title="FinTrack | Personal Financial Tracker",
+    page_icon=str(ICON_PATH) if ICON_PATH.exists() else "💰",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -385,8 +389,20 @@ def render_metric_cards(metrics: Dict[str, Any]) -> None:
 # -----------------------------------------------------------------------------
 def render_sidebar(df: pd.DataFrame) -> tuple[pd.DataFrame, Dict[str, Any]]:
     """Render sidebar navigation, filter controls, data status, and footer."""
-    st.sidebar.markdown("## 💰 FinTrack")
-    st.sidebar.caption("Personal Financial Tracker")
+    if hasattr(st, "logo") and LOGO_PATH.exists():
+        try:
+            st.logo(
+                image=str(LOGO_PATH),
+                icon_image=str(ICON_PATH) if ICON_PATH.exists() else None,
+            )
+        except Exception:
+            pass
+
+    if LOGO_PATH.exists():
+        st.sidebar.image(str(LOGO_PATH), use_container_width=True)
+    else:
+        st.sidebar.markdown("## 💰 FinTrack")
+        st.sidebar.caption("Personal Financial Tracker")
 
     # Navigation Menu
     pages = ["🏠 Dashboard", "💳 Transactions", "📊 Analytics", "📁 Upload Data", "ℹ️ About"]
@@ -1103,10 +1119,12 @@ def render_upload_data() -> None:
 # -----------------------------------------------------------------------------
 def render_about() -> None:
     """Render the project about page, feature checklist, and privacy declarations."""
-    st.markdown("## ℹ️ About Personal Financial Tracker")
+    if LOGO_PATH.exists():
+        st.image(str(LOGO_PATH), width=320)
+    st.markdown("## About FinTrack — Personal Financial Tracker")
     st.markdown(
         """
-        **Personal Financial Tracker** is an interactive, privacy-first web application designed
+        **FinTrack** is an interactive, privacy-first personal financial analytics dashboard designed
         to help users understand their income patterns, expense behavior, spending categories,
         and cash-flow health with intuitive visualizations and automated insights.
         """

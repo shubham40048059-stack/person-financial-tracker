@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/fintrack-logo.png" alt="FinTrack - Personal Finance, Simplified" width="550">
+</p>
+
 # Personal Financial Tracker 💰
 
 A complete, modern, portfolio-quality **Personal Financial Tracker** web application built with **Python**, **Streamlit**, **Pandas**, and **Plotly**.
