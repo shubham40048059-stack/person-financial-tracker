@@ -1,0 +1,98 @@
+Date,Description,Category,Type,Income,Expense,Balance
+2026-07-01,Salary Credit,Salary,Income,30000.0,0.0,40000.0
+2026-07-02,Clothing Store,Shopping,Expense,0.0,886.23,39113.77
+2026-07-02,Electricity Bill,Utilities,Expense,0.0,843.14,38270.63
+2026-07-04,Food Delivery,Food,Expense,0.0,286.92,37983.71
+2026-07-04,Supermarket,Groceries,Expense,0.0,1469.27,36514.44
+2026-07-04,Fuel Station,Fuel,Expense,0.0,952.16,35562.28
+2026-07-07,Mobile Recharge,Mobile & Internet,Expense,0.0,305.59,35256.69
+2026-07-07,Supermarket,Groceries,Expense,0.0,1160.08,34096.61
+2026-07-09,Fuel Station,Fuel,Expense,0.0,1261.21,32835.4
+2026-07-09,Fuel Station,Fuel,Expense,0.0,1019.3,31816.1
+2026-07-11,Pharmacy,Healthcare,Expense,0.0,480.11,29782.03
+2026-07-11,Mobile Recharge,Mobile & Internet,Expense,0.0,343.23,30262.14
+2026-07-11,Clothing Store,Shopping,Expense,0.0,1210.73,30605.37
+2026-07-14,ATM Cash Withdrawal,Cash Withdrawal,Expense,0.0,1506.5,28275.53
+2026-07-14,Entertainment,Entertainment,Expense,0.0,414.91,27860.62
+2026-07-15,Freelance Payment,Freelance,Income,4500.0,0.0,32360.62
+2026-07-16,Mobile Recharge,Mobile & Internet,Expense,0.0,367.13,31993.49
+2026-07-16,Restaurant,Food,Expense,0.0,360.22,31633.27
+2026-07-18,Entertainment,Entertainment,Expense,0.0,459.15,31174.12
+2026-07-18,Supermarket,Groceries,Expense,0.0,1268.95,29905.17
+2026-07-18,Cab Ride,Transport,Expense,0.0,328.65,29576.52
+2026-07-21,Pharmacy,Healthcare,Expense,0.0,476.42,29100.1
+2026-07-21,Grocery Store,Groceries,Expense,0.0,1003.38,28096.72
+2026-07-23,Mobile Recharge,Mobile & Internet,Expense,0.0,314.97,26806.85
+2026-07-23,Fuel Station,Fuel,Expense,0.0,974.9,27121.82
+2026-07-25,Railway Ticket,Travel,Expense,0.0,990.0,25816.85
+2026-07-25,Pharmacy,Healthcare,Expense,0.0,644.07,25172.78
+2026-07-25,Cab Ride,Transport,Expense,0.0,290.83,24881.95
+2026-07-28,Electricity Bill,Utilities,Expense,0.0,745.54,24136.41
+2026-07-28,Clothing Store,Shopping,Expense,0.0,950.34,23186.07
+2026-07-30,Railway Ticket,Travel,Expense,0.0,1056.22,22129.85
+2026-07-30,ATM Cash Withdrawal,Cash Withdrawal,Expense,0.0,1732.79,20397.06
+2026-08-01,Cab Ride,Transport,Expense,0.0,232.77,48148.78
+2026-08-01,Salary Credit,Salary,Income,30000.0,0.0,50397.06
+2026-08-01,Supermarket,Groceries,Expense,0.0,1269.09,49127.97
+2026-08-01,Internet Bill,Mobile & Internet,Expense,0.0,746.42,48381.55
+2026-08-04,Railway Ticket,Travel,Expense,0.0,935.77,46973.68
+2026-08-04,Cab Ride,Transport,Expense,0.0,239.33,47909.45
+2026-08-06,Clothing Store,Shopping,Expense,0.0,1181.42,45792.26
+2026-08-06,Pharmacy,Healthcare,Expense,0.0,576.44,45215.82
+2026-08-08,Fuel Station,Fuel,Expense,0.0,1337.48,43878.34
+2026-08-08,Restaurant,Food,Expense,0.0,412.07,43466.27
+2026-08-08,Railway Ticket,Travel,Expense,0.0,1058.05,42408.22
+2026-08-11,Clothing Store,Shopping,Expense,0.0,1203.49,41204.73
+2026-08-11,Food Delivery,Food,Expense,0.0,382.31,40822.42
+2026-08-13,ATM Cash Withdrawal,Cash Withdrawal,Expense,0.0,2268.31,38554.11
+2026-08-13,Grocery Store,Groceries,Expense,0.0,778.07,37776.04
+2026-08-15,Food Delivery,Food,Expense,0.0,422.3,40463.81
+2026-08-15,Mobile Recharge,Mobile & Internet,Expense,0.0,352.66,40886.11
+2026-08-15,Grocery Store,Groceries,Expense,0.0,1037.27,41238.77
+2026-08-15,Freelance Payment,Freelance,Income,4500.0,0.0,42276.04
+2026-08-18,Pharmacy,Healthcare,Expense,0.0,641.62,39822.19
+2026-08-18,Cab Ride,Transport,Expense,0.0,239.77,39582.42
+2026-08-20,Internet Bill,Mobile & Internet,Expense,0.0,662.52,38919.9
+2026-08-20,Clothing Store,Shopping,Expense,0.0,1077.37,37842.53
+2026-08-22,Railway Ticket,Travel,Expense,0.0,696.84,37145.69
+2026-08-22,Electricity Bill,Utilities,Expense,0.0,979.15,36166.54
+2026-08-22,Railway Ticket,Travel,Expense,0.0,954.98,35211.56
+2026-08-25,Mobile Recharge,Mobile & Internet,Expense,0.0,478.37,34733.19
+2026-08-25,Mobile Recharge,Mobile & Internet,Expense,0.0,371.47,34361.72
+2026-08-27,Supermarket,Groceries,Expense,0.0,1522.65,32417.07
+2026-08-27,Restaurant,Food,Expense,0.0,422.0,33939.72
+2026-08-29,ATM Cash Withdrawal,Cash Withdrawal,Expense,0.0,1609.65,30807.42
+2026-08-29,Clothing Store,Shopping,Expense,0.0,912.99,29894.43
+2026-08-29,Clothing Store,Shopping,Expense,0.0,1057.19,28837.24
+2026-09-01,Salary Credit,Salary,Income,30000.0,0.0,58837.24
+2026-09-01,Supermarket,Groceries,Expense,0.0,1272.22,57565.02
+2026-09-01,Pharmacy,Healthcare,Expense,0.0,673.95,56891.07
+2026-09-03,Fuel Station,Fuel,Expense,0.0,1050.85,55840.22
+2026-09-03,Fuel Station,Fuel,Expense,0.0,1416.47,54423.75
+2026-09-05,Fuel Station,Fuel,Expense,0.0,1350.53,50619.44
+2026-09-05,Grocery Store,Groceries,Expense,0.0,981.13,53442.62
+2026-09-05,Supermarket,Groceries,Expense,0.0,1472.65,51969.97
+2026-09-08,Supermarket,Groceries,Expense,0.0,1210.61,48873.59
+2026-09-08,Entertainment,Entertainment,Expense,0.0,535.24,50084.2
+2026-09-10,Restaurant,Food,Expense,0.0,410.28,48463.31
+2026-09-10,Electricity Bill,Utilities,Expense,0.0,1128.53,47334.78
+2026-09-12,Railway Ticket,Travel,Expense,0.0,1050.55,46284.23
+2026-09-12,Entertainment,Entertainment,Expense,0.0,419.66,45864.57
+2026-09-12,Supermarket,Groceries,Expense,0.0,1600.1,44264.47
+2026-09-15,Freelance Payment,Freelance,Income,4500.0,0.0,48764.47
+2026-09-15,Railway Ticket,Travel,Expense,0.0,995.21,47769.26
+2026-09-15,Fuel Station,Fuel,Expense,0.0,1265.38,46503.88
+2026-09-17,Restaurant,Food,Expense,0.0,393.52,46110.36
+2026-09-17,Restaurant,Food,Expense,0.0,428.27,45682.09
+2026-09-19,Internet Bill,Mobile & Internet,Expense,0.0,531.06,43600.89
+2026-09-19,Entertainment,Entertainment,Expense,0.0,605.61,45076.48
+2026-09-19,Grocery Store,Groceries,Expense,0.0,944.53,44131.95
+2026-09-22,Cab Ride,Transport,Expense,0.0,333.02,43267.87
+2026-09-22,ATM Cash Withdrawal,Cash Withdrawal,Expense,0.0,2306.77,40961.1
+2026-09-24,Food Delivery,Food,Expense,0.0,272.64,40688.46
+2026-09-24,Pharmacy,Healthcare,Expense,0.0,660.68,40027.78
+2026-09-26,Supermarket,Groceries,Expense,0.0,1506.54,38521.24
+2026-09-26,ATM Cash Withdrawal,Cash Withdrawal,Expense,0.0,1569.21,36952.03
+2026-09-26,Entertainment,Entertainment,Expense,0.0,508.18,36443.85
+2026-09-29,Restaurant,Food,Expense,0.0,341.96,36101.89
+2026-09-29,Internet Bill,Mobile & Internet,Expense,0.0,855.17,35246.72
